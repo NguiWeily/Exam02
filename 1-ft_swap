@@ -1,0 +1,27 @@
+Assignment name  : ft_swap
+Expected files   : ft_swap.c
+Allowed functions: 
+--------------------------------------------------------------------------------
+
+Write a function that swaps the contents of two integers the adresses of which
+are passed as parameters.
+
+Your function must be declared as follows:
+
+void	ft_swap(int *a, int *b);
+
+Certainly! Here's an implementation of the `ft_swap` function in C:
+
+```c
+void ft_swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+```
+
+In this implementation, the `ft_swap` function takes two integer pointers as input (`int *a` and `int *b`) and swaps the values they point to.
+
+The function uses a temporary variable `temp` to store the value of `*a`. It then assigns the value of `*b` to `*a`, and finally assigns the value of `temp` to `*b`. This way, the values of the two integers are swapped.
+
+Since the function modifies the values at the addresses pointed to by `a` and `b`, there is no need to return anything. The changes made inside the function will be reflected outside the function.
