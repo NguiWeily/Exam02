@@ -1,0 +1,54 @@
+Assignment name  : aff_z
+Expected files   : aff_z.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 'z'
+character it encounters in it, followed by a newline. If there are no
+'z' characters in the string, the program writes 'z' followed
+by a newline. If the number of parameters is not 1, the program displays
+'z' followed by a newline.
+
+Example:
+
+$> ./aff_z "abc" | cat -e
+z$
+$> ./aff_z "dubO a POIL" | cat -e
+z$
+$> ./aff_z "zaz sent le poney" | cat -e
+z$
+$> ./aff_z | cat -e
+z$
+
+Here's an implementation of the `aff_z` program in C:
+
+```c
+#include <unistd.h>
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        write(1, "z\n", 2);
+        return 0;
+    }
+
+    char *str = argv[1];
+    while (*str) {
+        if (*str == 'z') {
+            write(1, "z\n", 2);
+            return 0;
+        }
+        str++;
+    }
+
+    write(1, "z\n", 2);
+    return 0;
+}
+```
+
+In this implementation, the `aff_z` program takes a string as a command-line argument. If the number of arguments is not 1, it directly writes "z\n" and terminates.
+
+If there is one argument, it assigns the string to the variable `str`. It then iterates through the characters of the string. If it encounters the character 'z', it writes "z\n" and terminates the program.
+
+If no 'z' characters are found in the string, it still writes "z\n" and terminates.
+
+The program uses the `write` function from the `unistd.h` header to write the output to the standard output.
