@@ -1,0 +1,34 @@
+Assignment name  : ft_strlen
+Expected files   : ft_strlen.c
+Allowed functions: 
+--------------------------------------------------------------------------------
+
+Write a function that returns the length of a string.
+
+Your function must be declared as follows:
+
+int	ft_strlen(char *str);
+
+Certainly! Here's an implementation of the `ft_strlen` function in C:
+
+```c
+#include <stddef.h>
+
+int ft_strlen(char *str) {
+    int length = 0;
+
+    while (str[length] != '\0') {
+        length++;
+    }
+
+    return length;
+}
+```
+
+In this implementation, the `ft_strlen` function takes a string as input (`char *str`) and returns an integer representing the length of the string.
+
+The function initializes a variable `length` to 0 and then enters a loop. Inside the loop, it checks each character of the string `str` until it encounters the null terminator (`'\0'`). For each non-null character encountered, it increments the `length` variable.
+
+Finally, it returns the `length` value, which represents the length of the string.
+
+Note: The implementation uses the `<stddef.h>` header to include the `NULL` macro, which is not used in this particular function.
