@@ -1,0 +1,87 @@
+Assignment name  : union
+Expected files   : union.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes two strings and displays, without doubles, the
+characters that appear in either one of the strings.
+
+The display will be in the order characters appear in the command line, and
+will be followed by a \n.
+
+If the number of arguments is not 2, the program displays \n.
+
+Example:
+
+$>./union zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" | cat -e
+zpadintoqefwjy$
+$>./union ddf6vewg64f gtwthgdwthdwfteewhrtag6h4ffdhsd | cat -e
+df6vewg4thras$
+$>./union "rien" "cette phrase ne cache rien" | cat -e
+rienct phas$
+$>./union | cat -e
+$
+$>
+$>./union "rien" | cat -e
+$
+$>
+
+Sure! Here's an example implementation of the "union" program in C:
+
+```c
+#include <unistd.h>
+
+int is_already_present(char* str, char c, int len) {
+    for (int i = 0; i < len; i++) {
+        if (str[i] == c) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void display_union(char* str1, char* str2) {
+    char union_str[256];
+    int union_len = 0;
+
+    for (int i = 0; str1[i] != '\0'; i++) {
+        if (!is_already_present(union_str, str1[i], union_len)) {
+            union_str[union_len] = str1[i];
+            union_len++;
+        }
+    }
+
+    for (int i = 0; str2[i] != '\0'; i++) {
+        if (!is_already_present(union_str, str2[i], union_len)) {
+            union_str[union_len] = str2[i];
+            union_len++;
+        }
+    }
+
+    write(1, union_str, union_len);
+    write(1, "\n", 1);
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        write(1, "\n", 1);
+    } else {
+        display_union(argv[1], argv[2]);
+    }
+    return 0;
+}
+```
+
+Save the above code in a file named `union.c`. You can compile it using a C compiler and run the resulting executable. For example, using gcc, you can compile it with the command:
+
+```
+gcc -o union union.c
+```
+
+Then, you can run the program:
+
+```
+./union zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj"
+```
+
+The program will display the characters that appear in either one of the strings, without duplicates.
