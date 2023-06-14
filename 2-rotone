@@ -1,0 +1,78 @@
+Assignment name  : rotone
+Expected files   : rotone.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string and displays it, replacing each of its
+letters by the next one in alphabetical order.
+
+'z' becomes 'a' and 'Z' becomes 'A'. Case remains unaffected.
+
+The output will be followed by a \n.
+
+If the number of arguments is not 1, the program displays \n.
+
+Example:
+
+$>./rotone "abc"
+bcd
+$>./rotone "Les stagiaires du staff ne sentent pas toujours tres bon." | cat -e
+Mft tubhjbjsft ev tubgg of tfoufou qbt upvkpvst usft cpo.$
+$>./rotone "AkjhZ zLKIJz , 23y " | cat -e
+BlkiA aMLJKa , 23z $
+$>./rotone | cat -e
+$
+$>
+$>./rotone "" | cat -e
+$
+$>
+
+Sure! Here's an example implementation of the "rotone" program in C:
+
+```c
+#include <unistd.h>
+
+void rotone(char *str) {
+    while (*str) {
+        if ((*str >= 'a' && *str < 'z') || (*str >= 'A' && *str < 'Z')) {
+            *str += 1;
+        } else if (*str == 'z' || *str == 'Z') {
+            *str -= 25;
+        }
+        write(1, str, 1);
+        str++;
+    }
+}
+
+int main(int argc, char *argv[]) {
+    if (argc == 2) {
+        rotone(argv[1]);
+    }
+    write(1, "\n", 1);
+    return 0;
+}
+```
+
+In this implementation, the `rotone` function takes a string `str` and performs the character rotation as described in the assignment. It iterates through each character in the string, checking if it is a lowercase or uppercase letter. If it is, the character is incremented by 1 to get the next letter in alphabetical order. If the character is 'z' or 'Z', it is wrapped around to 'a' or 'A' respectively.
+
+The `main` function checks if the program was called with one argument (`argc == 2`), and if so, it calls the `rotone` function with the argument provided. After the rotation is performed, a newline character is written to the standard output.
+
+You can compile the program using a C compiler, such as GCC, with the command:
+
+```
+gcc -o rotone rotone.c
+```
+
+Then you can run the program with different input strings, like the examples given in the assignment prompt:
+
+```
+./rotone "abc"
+./rotone "Les stagiaires du staff ne sentent pas toujours tres bon."
+./rotone "AkjhZ zLKIJz , 23y "
+./rotone
+./rotone ""
+```
+
+The program will output the rotated strings or a newline if the number of arguments is not 1.
+
+Note: The program assumes that the input string doesn't contain any special characters or non-alphabetic characters. It only rotates the alphabetical characters and leaves other characters unchanged.
