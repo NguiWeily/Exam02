@@ -1,0 +1,82 @@
+Assignment name  : wdmatch
+Expected files   : wdmatch.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes two strings and checks whether it's possible to
+write the first string with characters from the second string, while respecting
+the order in which these characters appear in the second string.
+
+If it's possible, the program displays the string, followed by a \n, otherwise
+it simply displays a \n.
+
+If the number of arguments is not 2, the program displays a \n.
+
+Examples:
+
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbreda" | cat -e
+faya$
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbred" | cat -e
+$
+$>./wdmatch "quarante deux" "qfqfsudf arzgsayns tsregfdgs sjytdekuoixq " | cat -e
+quarante deux$
+$>./wdmatch "error" rrerrrfiiljdfxjyuifrrvcoojh | cat -e
+$
+$>./wdmatch | cat -e
+$
+
+Certainly! Here's an example implementation of the "wdmatch" program in C:
+
+```c
+#include <unistd.h>
+
+int string_length(char* str) {
+    int len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
+
+int is_matching(char* str1, char* str2) {
+    int i = 0;
+    int j = 0;
+    while (str1[i] != '\0' && str2[j] != '\0') {
+        if (str1[i] == str2[j]) {
+            i++;
+        }
+        j++;
+    }
+    return str1[i] == '\0';
+}
+
+void display_match(char* str1, char* str2) {
+    if (is_matching(str1, str2)) {
+        write(1, str1, string_length(str1));
+    }
+    write(1, "\n", 1);
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        write(1, "\n", 1);
+    } else {
+        display_match(argv[1], argv[2]);
+    }
+    return 0;
+}
+```
+
+Save the above code in a file named `wdmatch.c`. You can compile it using a C compiler and run the resulting executable. For example, using gcc, you can compile it with the command:
+
+```
+gcc -o wdmatch wdmatch.c
+```
+
+Then, you can run the program:
+
+```
+./wdmatch "faya" "fgvvfdxcacpolhyghbreda"
+```
+
+The program will check whether it's possible to write the first string with characters from the second string, while respecting the order. If it's possible, it will display the string. Otherwise, it will display a newline character.
