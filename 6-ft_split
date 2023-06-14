@@ -1,0 +1,126 @@
+Assignment name  : ft_split
+Expected files   : ft_split.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Write a function that takes a string, splits it into words, and returns them as
+a NULL-terminated array of strings.
+
+A "word" is defined as a part of a string delimited either by spaces/tabs/new
+lines, or by the start/end of the string.
+
+Your function must be declared as follows:
+
+char    **ft_split(char *str);
+
+Certainly! Here's an implementation of the `ft_split` function in C:
+
+```c
+#include <stdlib.h>
+
+static int count_words(char* str) {
+    int count = 0;
+    int is_word = 0;
+
+    while (*str) {
+        if (*str == ' ' || *str == '\t' || *str == '\n') {
+            is_word = 0;
+        } else if (is_word == 0) {
+            is_word = 1;
+            count++;
+        }
+        str++;
+    }
+
+    return count;
+}
+
+static char* get_next_word(char* str) {
+    char* word_start = NULL;
+
+    while (*str) {
+        if (*str == ' ' || *str == '\t' || *str == '\n') {
+            if (word_start != NULL) {
+                break;
+            }
+        } else if (word_start == NULL) {
+            word_start = str;
+        }
+        str++;
+    }
+
+    return word_start;
+}
+
+char** ft_split(char* str) {
+    int word_count = count_words(str);
+    char** result = (char**)malloc((word_count + 1) * sizeof(char*));
+    if (result == NULL) {
+        return NULL; // Failed to allocate memory
+    }
+
+    int index = 0;
+    char* word;
+
+    while ((word = get_next_word(str)) != NULL) {
+        int word_length = 0;
+        while (word[word_length] && word[word_length] != ' '
+               && word[word_length] != '\t' && word[word_length] != '\n') {
+            word_length++;
+        }
+
+        result[index] = (char*)malloc((word_length + 1) * sizeof(char));
+        if (result[index] == NULL) {
+            // Free memory for previously allocated words
+            for (int i = 0; i < index; i++) {
+                free(result[i]);
+            }
+            free(result);
+            return NULL; // Failed to allocate memory
+        }
+
+        for (int i = 0; i < word_length; i++) {
+            result[index][i] = word[i];
+        }
+        result[index][word_length] = '\0';
+
+        index++;
+        str = word + word_length;
+    }
+
+    result[index] = NULL; // Null-terminate the array
+
+    return result;
+}
+```
+
+Save the above code in a file named `ft_split.c`. The `ft_split` function takes a string `str`, splits it into words based on spaces, tabs, and newlines, and returns a NULL-terminated array of strings.
+
+Here's an example usage of the `ft_split` function:
+
+```c
+#include <stdio.h>
+
+int main() {
+    char* str = "Hello world! This is a test.";
+    char** words = ft_split(str);
+
+    if (words != NULL) {
+        int index = 0;
+        while (words[index] != NULL) {
+            printf("%s\n", words[index]);
+            index++;
+        }
+
+        // Free memory for the array of words
+        for (int i = 0; words[i] != NULL; i++) {
+            free(words[i]);
+        }
+        free(words);
+    }
+
+    return 0;
+}
+```
+
+You can compile the code using a C compiler, and the output will be the individual words extracted from the input string. Make sure to free the allocated memory using `free` when you're done using the array of words to avoid memory leaks.
