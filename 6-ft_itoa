@@ -1,0 +1,77 @@
+Assignment name  : ft_itoa
+Expected files   : ft_itoa.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Write a function that takes an int and converts it to a null-terminated string.
+The function returns the result in a char array that you must allocate.
+
+Your function must be declared as follows:
+
+char	*ft_itoa(int nbr);
+
+Certainly! Here's an implementation of the `ft_itoa` function in C:
+
+```c
+#include <stdlib.h>
+
+static int get_number_length(int nbr) {
+    int length = 1;
+    int num = nbr;
+    if (num < 0) {
+        num = -num;
+        length++;  // Account for the '-' sign
+    }
+    while (num >= 10) {
+        num /= 10;
+        length++;
+    }
+    return length;
+}
+
+char* ft_itoa(int nbr) {
+    int length = get_number_length(nbr);
+    char* result = (char*)malloc((length + 1) * sizeof(char));
+    if (result == NULL) {
+        return NULL; // Failed to allocate memory
+    }
+
+    int num = nbr;
+    if (num < 0) {
+        result[0] = '-';
+        num = -num;
+    }
+
+    result[length] = '\0'; // Null-terminate the string
+
+    for (int i = length - 1; i >= 0; i--) {
+        result[i] = '0' + (num % 10);
+        num /= 10;
+    }
+
+    return result;
+}
+```
+
+Save the above code in a file named `ft_itoa.c`. The `ft_itoa` function takes an integer `nbr` and converts it into a null-terminated string. It returns a pointer to the resulting char array, which is allocated dynamically using `malloc`.
+
+Here's an example usage of the `ft_itoa` function:
+
+```c
+#include <stdio.h>
+
+int main() {
+    int num = -12345;
+    char* str = ft_itoa(num);
+
+    if (str != NULL) {
+        printf("%s\n", str);
+
+        free(str); // Remember to free the allocated memory
+    }
+
+    return 0;
+}
+```
+
+You can compile the code using a C compiler, and the output will be the string representation of the integer returned by the `ft_itoa` function. Make sure to free the allocated memory using `free` when you're done using the string to avoid memory leaks.
